@@ -1,8 +1,8 @@
 CiRA CORE Windows
-version : 1.9.0@230629
-  - Update CiRA Modbus IO and CiRA Arduio IO
-  - Add CiRA GenICam Server
-  - Update arch...
-  - Augmentation with OpenMP
-  - Custom AI object colors
-  - Update LineBot
+version : 1.9.1@230906
+  - Add Python+
+  - Add OpenAI API
+  - Add new WebCam
+  - Update UI
+  - Support login online
+  - Add statusbar, modules launcher 
