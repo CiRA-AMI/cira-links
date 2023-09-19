@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.1@230917
+version : 1.9.1@230918
   - Add Python+
   - Add OpenAI API
   - Add new WebCam
