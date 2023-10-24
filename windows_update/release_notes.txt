@@ -1,5 +1,6 @@
 CiRA CORE Windows
-version : 1.9.1@230918
+version : 1.9.1@231024
+  - Add PatMatch
   - Add Python+
   - Add OpenAI API
   - Add new WebCam
