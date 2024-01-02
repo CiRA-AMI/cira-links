@@ -1,10 +1,7 @@
 CiRA CORE Windows
-version : 1.9.1@231024
-  - Add PatMatch
-  - Add Python+
-  - Add OpenAI API
-  - Add new WebCam
-  - Update UI
-  - Support login online
-  - Add statusbar, modules launcher 
-  - Update signature
+version : 1.9.2@240102 
+  - Update DeepTrain Model V5, V5-tiny, V8-s,m
+  - Add DeepEval
+  - Add ColorDetect
+  - Add Enhance : Gray , BrightContrast
+  - ImageCrop support square padding
