@@ -4,6 +4,8 @@
   "refresh_rate" : 60,
   "df_edu" : 10,
   "df_stup" : 50,
-  "rw_edu" : [100,200,300,400,500]
-  "rw_stup" : [500,800,1000]
+  "rw_edu" : [100, 200, 300, 400, 500],
+  "rw_edu_plu": ["Plugins ZoneCounter"],
+  "rw_stup" : [500,800,1000],
+  "rw_edu_plu": ["Plugins ZoneCounter", "Plugins DatasetGen"]
 }
