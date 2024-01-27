@@ -1,4 +1,9 @@
 {
   "url" : "https://ads.cira-ai.com/",
-  "refresh_rate" : 60
+  "url2" : "https://play-ads.cira-ai.com/",
+  "refresh_rate" : 60,
+  "df_edu" : 10,
+  "df_stup" : 50,
+  "rw_edu" : 100,
+  "rw_stup" : 500
 }
