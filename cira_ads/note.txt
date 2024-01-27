@@ -1,1 +1,15 @@
+[Education]
+คุณจะได้รับวางวัลจากการชมและคลิกลิ้งโฆษณาตามจำนวนการคลิกดังนี้
+  คลิก 1 ครั้ง ได้ AI payload limit 100
+  คลิก 2 ครั้ง ได้ AI payload limit 200
+  คลิก 3 ครั้ง ได้ AI payload limit 300
+  คลิก 4 ครั้ง ได้ AI payload limit 400
+  คลิก 5 ครั้ง ได้ AI payload limit 500 และได้รับ Plugin ZoneCounter
+[END]
 
+[Starup]
+คุณจะได้รับวางวัลจากการชมและคลิกลิ้งโฆษณาตามจำนวนการคลิกดังนี้
+  คลิก 1 ครั้ง ได้ AI payload limit 500
+  คลิก 2 ครั้ง ได้ AI payload limit 800
+  คลิก 3 ครั้ง ได้ AI payload limit 1000 และได้รับ Plugin ZoneCounter,DatasetGen
+[END]
