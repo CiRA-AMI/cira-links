@@ -7,5 +7,5 @@
   "rw_edu" : [100, 200, 300, 400, 500],
   "rw_edu_plu": ["cira_plugin_zonecounter"],
   "rw_stup" : [500,800,1000],
-  "rw_edu_plu": ["cira_plugin_zonecounter", "cira_plugin_datasetgen"]
+  "rw_stup_plu": ["cira_plugin_zonecounter", "cira_plugin_datasetgen"]
 }
