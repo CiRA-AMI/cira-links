@@ -1,6 +1,6 @@
 {
-  "url" : "https://ads.cira-ai.com/",
-  "url2" : "https://play-ads.cira-ai.com/",
+  "url" : "https://ads.cira-ai.com/ads",
+  "url2" : "https://ads.cira-ai.com/play-ads",
   "refresh_rates" : [60, 70, 80, 120, 180, 300],
   "ad_delay" : 3,
   "df_edu" : 10,
