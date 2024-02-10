@@ -1,5 +1,5 @@
 {
-  "banner" : false,
+  "banner" : true,
   "url" : "https://ads.cira-ai.com/ads",
   "url2" : "https://ads.cira-ai.com/play-ads",
   "refresh_rates" : [60, 70, 80, 120, 180, 300]
