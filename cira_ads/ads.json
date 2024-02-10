@@ -1,6 +1,6 @@
 {
   "banner" : true,
-  "banner_click" : false,
+  "banner_click" : true,
   "collect_edu_data" : true,
   "cl_edu_data" : true,
   "url" : "https://ads.cira-ai.com/ads",
