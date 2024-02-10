@@ -1,7 +1,6 @@
 {
   "banner" : true,
   "banner_click" : false,
-  "collect_edu_data" : true,
   "cl_edu_data" : true,
   "url" : "https://ads.cira-ai.com/ads",
   "url2" : "https://ads.cira-ai.com/play-ads",
