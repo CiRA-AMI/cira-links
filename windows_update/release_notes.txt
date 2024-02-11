@@ -1,7 +1,9 @@
 CiRA CORE Windows
-version : 1.9.2@240112 
+version : 1.9.2@240212
   - Update DeepTrain Model V5, V5-tiny, V8-s,m
   - Add DeepEval
   - Add ColorDetect
   - Add Enhance : Gray , BrightContrast
   - ImageCrop support square padding
+  - Add advertisement system
+  - Hot-load plugin
