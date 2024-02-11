@@ -1,7 +1,7 @@
 {
   "banner" : true,
   "banner_click" : false,
-  "banner_scroll" : false,
+  "banner_scroll" : true,
   "cl_edu_data" : false,
   "minimum_version" : "240211",
   "url" : "https://www.cira-ai.com/",
