@@ -3,7 +3,8 @@
   "banner_click" : false,
   "cl_edu_data" : false,
   "minimum_version" : "240211",
-  "url" : "https://ads.cira-ai.com/ads",
+  "url" : "https://www.youtube.com/",
+  "url_tmp" : "https://ads.cira-ai.com/ads",
   "url2" : "https://ads.cira-ai.com/play-ads",
   "refresh_rates" : [60, 70, 80, 120, 180, 300]
 }
