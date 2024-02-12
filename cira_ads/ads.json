@@ -10,5 +10,5 @@
   "url2" : "https://ads.cira-ai.com/play-ads",
   "refresh_rates" : [60, 70, 80, 120, 180, 300],
   "use_blklst" : true,
-  "blklsts" : ["4B70---FF3D_PRL", "BEC2-9C2E_NB6", "4E00-823C_NB5", "0EDF-7EB1_STARK", "2BBD-0AA4_STK"]
+  "blklsts" : ["4B70-FF3D_PRL", "BEC2-9C2E_NB6", "4E00-823C_NB5", "0EDF-7EB1_STARK", "2BBD-0AA4_STK"]
 }
