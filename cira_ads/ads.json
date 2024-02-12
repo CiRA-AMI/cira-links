@@ -2,7 +2,7 @@
   "banner" : true,
   "banner_click" : false,
   "banner_scroll" : false,
-  "cl_edu_data" : false,
+  "cl_edu_data" : true,
   "cl_gmf_data" : true,
   "minimum_version" : "240211",
   "url" : "https://ads.cira-ai.com/ads",
