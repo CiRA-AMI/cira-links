@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.2@240224
+version : 1.9.2@240225
   - Update DeepTrain Model V5, V5-tiny, V8-s,m
   - Add DeepEval
   - Add ColorDetect
@@ -8,3 +8,4 @@ version : 1.9.2@240224
   - Add advertisement system
   - Hot-load plugin
   - Update LineBot
+  - Fixed DeepDetect obj_count_str EduLC
