@@ -1,5 +1,5 @@
 {
-  "banner" : false,
+  "banner" : true,
   "banner_click" : false,
   "banner_scroll" : false,
   "cl_edu_data" : true,
