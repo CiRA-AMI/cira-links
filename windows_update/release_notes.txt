@@ -1,11 +1,6 @@
 CiRA CORE Windows
-version : 1.9.2@240225
-  - Update DeepTrain Model V5, V5-tiny, V8-s,m
-  - Add DeepEval
-  - Add ColorDetect
-  - Add Enhance : Gray , BrightContrast
-  - ImageCrop support square padding
-  - Add advertisement system
-  - Hot-load plugin
-  - Update LineBot
-  - Fixed DeepDetect obj_count_str EduLC
+version : 1.9.3@240614
+  - Update ZoneCounter, DeepTrain,
+  - Update CodeEditor, PatMatch
+  - Update Subbernoulli
+  - Update Lock/Unlock scene and nodes
