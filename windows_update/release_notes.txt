@@ -4,3 +4,4 @@ version : 1.9.3@240626
   - Update CodeEditor, PatMatch
   - Update Subbernoulli
   - Update Lock/Unlock scene and nodes
+  - Embed Ubuntu font
