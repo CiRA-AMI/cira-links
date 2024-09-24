@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.3@240914
+version : 1.9.3@240924
   - Update ZoneCounter, DeepTrain,
   - Update CodeEditor, PatMatch
   - Update Subbernoulli
