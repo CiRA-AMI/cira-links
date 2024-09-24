@@ -7,3 +7,4 @@ version : 1.9.3@240914
   - Embed Ubuntu fonts
   - Fixed ROI memory access in composite AI
   - Update CiRAOCR
+  - Update CiRA Arduino IO v2
