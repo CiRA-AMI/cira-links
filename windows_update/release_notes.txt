@@ -1,10 +1,12 @@
 CiRA CORE Windows
-version : 1.9.3@241123
+version : 1.9.3@250116
   - Update ZoneCounter, DeepTrain,
   - Update CodeEditor, PatMatch
   - Update Subbernoulli
   - Update Lock/Unlock scene and nodes
   - Embed Ubuntu fonts
   - Fixed ROI memory access in composite AI
-  - Update CiRAOCR
-  - Update CiRA Arduino IO v2
+  - Update CiRA Arduino v2
+  - Dev SemSeg
+  - Add PerepectTF
+  - Auto node positiion
