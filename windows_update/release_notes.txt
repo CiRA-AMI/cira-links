@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.3@250128
+version : 1.9.3@250206
   - Update ZoneCounter, DeepTrain,
   - Update CodeEditor, PatMatch
   - Update Subbernoulli
@@ -10,3 +10,5 @@ version : 1.9.3@250128
   - Dev SemSeg
   - Add PerepectTF
   - Auto node positiion
+  - Update JavaScript
+  - Add TGNotify, OLLMGen
