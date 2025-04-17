@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.3@250320
+version : 1.9.3@250417
   - Update ZoneCounter, DeepTrain,
   - Update CodeEditor, PatMatch
   - Update Subbernoulli
@@ -12,3 +12,8 @@ version : 1.9.3@250320
   - Auto node positiion
   - Update JavaScript
   - Add TGNotify, OLLMGen
+  - Auto node positiion
+  - Update command line
+  - Update LC from file and ENV
+  - JavaScript add println, removeGlobal, removeAllGlobal
+
