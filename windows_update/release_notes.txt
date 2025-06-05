@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.3@250504
+version : 1.9.3@250605
   - Update ZoneCounter, DeepTrain,
   - Update CodeEditor, PatMatch
   - Update Subbernoulli
@@ -17,3 +17,7 @@ version : 1.9.3@250504
   - Update LC from file and ENV
   - JavaScript add println, removeGlobal, removeAllGlobal
   - Add GroupNote
+  - LED override green name
+  - Add diagnostic in DeepTrain
+  - Upgrade VideoFile
+  - Windows Update CUDA 12.8
