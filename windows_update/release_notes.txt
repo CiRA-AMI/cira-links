@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.3@250616
+version : 1.9.3@250717
   - Update ZoneCounter, DeepTrain,
   - Update CodeEditor, PatMatch
   - Update Subbernoulli
@@ -24,3 +24,4 @@ version : 1.9.3@250616
   - DeepTrain Support COCO format
   - Add Cart-XY v2
   - Update CiRA Edu Robot
+  - Update EXE
