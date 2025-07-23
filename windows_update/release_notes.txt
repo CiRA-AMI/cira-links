@@ -1,27 +1,5 @@
 CiRA CORE Windows
-version : 1.9.3@250720
-  - Update ZoneCounter, DeepTrain,
-  - Update CodeEditor, PatMatch
-  - Update Subbernoulli
-  - Update Lock/Unlock scene and nodes
-  - Embed Ubuntu fonts
-  - Fixed ROI memory access in composite AI
-  - Update CiRA Arduino v2
-  - Dev SemSeg
-  - Add PerepectTF
-  - Auto node positiion
-  - Update JavaScript
-  - Add TGNotify, OLLMGen
-  - Auto node positiion
-  - Update command line
-  - Update LC from file and ENV
-  - JavaScript add println, removeGlobal, removeAllGlobal
-  - Add GroupNote
-  - LED override green name
-  - Add diagnostic in DeepTrain
-  - Upgrade VideoFile
-  - Windows Update CUDA 12.8
-  - DeepTrain Support COCO format
-  - Add Cart-XY v2
-  - Update CiRA Edu Robot
+version : 1.9.3@250723
+  - DeepTrain auto save
+  - Update GTGen
   - Update EXE
