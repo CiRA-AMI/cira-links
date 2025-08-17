@@ -1,5 +1,16 @@
 CiRA CORE Windows
-version : 1.9.3@250723
-  - DeepTrain auto save
-  - Update GTGen
-  - Update EXE
+version : 1.9.4@250818
+  - Add Yolo11 Detection & Instance Segmentation
+  - Deep* node UI update and add Polygon ROI
+  - DeepTrain & InstSegTrain auto save GT
+  - DeepTrain & InstSegTrain show bbox size WxH
+  - DeepTrain & InstSegTrain support coco format
+  - Fixed NULL UI update in GtsCam, WebCam
+  - Fixed ImageCrop crash
+  - GTGenerator export confidence
+  - ExportCrop set image name from bbox
+  - Update Python+
+  - Update ZoneCounterP 
+  - ClassifTrain no import data_gen and subdirectory
+  - Cleanup CiRA CORE AI engine
+  - Update EXE in Windows
