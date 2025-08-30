@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.4@250818
+version : 1.9.4@250828
   - Add Yolo11 Detection & Instance Segmentation
   - Deep* node UI update and add Polygon ROI
   - DeepTrain & InstSegTrain auto save GT
@@ -14,3 +14,4 @@ version : 1.9.4@250818
   - ClassifTrain no import data_gen and subdirectory
   - Cleanup CiRA CORE AI engine
   - Update EXE in Windows
+  - Add .flow, .npj, .gt icon file and Association
