@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.4@250901
+version : 1.9.4@250903
   - Add Yolo11 Detection & Instance Segmentation
   - Deep* node UI update and add Polygon ROI
   - DeepTrain & InstSegTrain auto save GT
