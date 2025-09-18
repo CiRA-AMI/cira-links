@@ -1,0 +1,107 @@
+// Pins
+const int buttonPin = 2;
+const int ledPin    = 13;
+const int relayPin  = 8;
+
+// Relay active level (เปลี่ยนเป็น LOW ถ้ารีเลย์คุณเป็น Active LOW)
+const int RELAY_ACTIVE_LEVEL   = HIGH;
+const int RELAY_INACTIVE_LEVEL = (RELAY_ACTIVE_LEVEL == HIGH ? LOW : HIGH);
+
+// Timing
+const unsigned long TIMEOUT_MS = 20000; // 20 วินาที
+const unsigned long BLINK_MS   = 500;   // กระพริบ 0.5 วิ ติด + 0.5 วิ ดับ = 1 Hz
+
+// State
+bool timing       = false;  // กำลังกดและจับเวลาหรือไม่
+bool relayOn      = false;
+bool ledState     = false;
+
+unsigned long pressStartMs        = 0;
+unsigned long lastBlinkToggleMs   = 0;
+unsigned long lastSecondTickMs    = 0;
+unsigned long elapsedSecondsShown = 0;
+
+void setup() {
+  pinMode(ledPin, OUTPUT);
+  pinMode(buttonPin, INPUT); // ถ้าต่อปุ่มแบบดึงลง ใช้ INPUT; ถ้าดึงขึ้นภายในบอร์ดให้ใช้ INPUT_PULLUP และกลับตรรกะ
+  pinMode(relayPin, OUTPUT);
+
+  // เริ่มต้นให้รีเลย์ปิด และ LED ดับ
+  digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
+  digitalWrite(ledPin, LOW);
+
+  Serial.begin(115200);
+  Serial.println(F("== System Ready =="));
+  Serial.println(F("กดปุ่มค้าง 20 วินาทีเพื่อเปิดรีเลย์"));
+}
+
+void loop() {
+  int buttonState = digitalRead(buttonPin); // HIGH = กด (ตามวงจรตัวอย่างเดิม)
+
+  if (buttonState == HIGH) {
+    // เริ่มจับเวลาเมื่อเพิ่งเริ่มกด
+    if (!timing) {
+      timing = true;
+      relayOn = false;
+      pressStartMs = millis();
+      lastBlinkToggleMs = millis();
+      lastSecondTickMs = millis();
+      elapsedSecondsShown = 0;
+
+      Serial.println(F("[BTN] กดปุ่ม: เริ่มจับเวลา 20 วินาที"));
+    }
+
+    // ถ้ายังไม่ถึง 20 วิให้กระพริบ LED ที่ 1 Hz
+    unsigned long now = millis();
+    unsigned long elapsed = now - pressStartMs;
+
+    if (!relayOn) {
+      // กระพริบ LED ทุก 500 ms
+      if (now - lastBlinkToggleMs >= BLINK_MS) {
+        ledState = !ledState;
+        digitalWrite(ledPin, ledState ? HIGH : LOW);
+        lastBlinkToggleMs = now;
+      }
+
+      // รายงานวินาทีที่ผ่านไปทุก ๆ 1 วินาที
+      if (now - lastSecondTickMs >= 1000) {
+        elapsedSecondsShown++;
+        Serial.print(F("[TIMER] ผ่านไป "));
+        Serial.print(elapsedSecondsShown);
+        Serial.println(F(" วินาที"));
+        lastSecondTickMs += 1000; // รักษาเฟสเวลาให้คงที่
+      }
+
+      // ครบเวลา → เปิดรีเลย์และให้ LED ติดค้าง
+      if (elapsed >= TIMEOUT_MS) {
+        relayOn = true;
+        digitalWrite(relayPin, RELAY_ACTIVE_LEVEL);
+        digitalWrite(ledPin, HIGH); // ติดค้างเพื่อบอกว่า “ครบแล้ว”
+        Serial.println(F("[RELAY] ครบ 20 วินาที → เปิดรีเลย์ (ON)"));
+      }
+    } else {
+      // หลังครบเวลา: LED ค้าง, รีเลย์ยัง ON — แสดงสถานะแบบประหยัด log
+      // (ถ้าต้องการพิมพ์ทุกวินาทีต่อก็ทำได้ แต่จะรก Serial)
+    }
+
+  } else {
+    // ปุ่มถูกปล่อย
+    if (timing) {
+      // รายงานผลเมื่อยกเลิกหรือเสร็จสิ้นแล้วปล่อยปุ่ม
+      if (!relayOn) {
+        Serial.print(F("[BTN] ปล่อยปุ่มก่อนครบเวลา: ยกเลิกที่ "));
+        Serial.print(elapsedSecondsShown);
+        Serial.println(F(" วินาที"));
+      } else {
+        Serial.println(F("[BTN] ปล่อยปุ่มหลังครบเวลา: ปิดรีเลย์"));
+      }
+    }
+
+    // รีเซ็ตสถานะทั้งหมดเมื่อไม่ได้กดปุ่ม
+    timing = false;
+    relayOn = false;
+    digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
+    digitalWrite(ledPin, LOW);
+    ledState = false;
+  }
+}
