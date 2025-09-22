@@ -1,22 +1,26 @@
 // Pins
-const int buttonPin   = 2;   // ปุ่มแบบหน่วงเวลา (กดค้าง 20 วินาที)
-const int overridePin = 4;   // ปุ่มบังคับเปิดทันที
+const int buttonPin   = 2;   // ปุ่มแบบหน่วงเวลา (20 วินาที)
+const int overridePin = 4;   // ปุ่มบังคับเปิดทันที (ต้องกดค้าง 0.5 วินาที)
 const int ledPin      = 13;
 const int relayPin    = 8;
 
-// Relay active level (เปลี่ยนเป็น LOW ถ้ารีเลย์คุณเป็น Active LOW)
+// Relay active level (เปลี่ยนเป็น LOW ถ้ารีเลย์ Active LOW)
 const int RELAY_ACTIVE_LEVEL   = HIGH;
 const int RELAY_INACTIVE_LEVEL = (RELAY_ACTIVE_LEVEL == HIGH ? LOW : HIGH);
 
 // Timing
-const unsigned long TIMEOUT_MS = 20000; // 20 วินาที
-const unsigned long BLINK_MS   = 500;   // กระพริบ 0.5 วิ
+const unsigned long TIMEOUT_MS      = 20000; // 20 วินาที
+const unsigned long BLINK_MS        = 500;  // LED กระพริบทุก 0.5 วิ
+const unsigned long OVERRIDE_HOLDMS = 500;  // D4 ต้องกดค้างอย่างน้อย 0.5 วิ
 
 // State
-bool timing       = false;  // กำลังกดและจับเวลาอยู่หรือไม่ (โหมด D2)
+bool timing       = false;  
 bool relayOn      = false;
 bool ledState     = false;
-bool overridePrev = false;  // เก็บสถานะก่อนหน้าไว้สำหรับ log
+
+// สำหรับ D4 (override)
+bool overrideActive      = false;  // ตอนนี้อยู่ในโหมด override หรือไม่
+unsigned long overridePressStartMs = 0;
 
 unsigned long pressStartMs        = 0;
 unsigned long lastBlinkToggleMs   = 0;
@@ -25,8 +29,6 @@ unsigned long elapsedSecondsShown = 0;
 
 void setup() {
   pinMode(ledPin, OUTPUT);
-
-  // ใช้ internal pull-up
   pinMode(buttonPin,   INPUT_PULLUP); 
   pinMode(overridePin, INPUT_PULLUP); 
   pinMode(relayPin, OUTPUT);
@@ -37,34 +39,42 @@ void setup() {
   Serial.begin(115200);
   Serial.println(F("== System Ready =="));
   Serial.println(F("D2: กดค้าง 20 วิ เพื่อเปิดรีเลย์"));
-  Serial.println(F("D4: กดเพื่อเปิดรีเลย์ทันที (ปล่อย = ปิด)"));
+  Serial.println(F("D4: กดค้าง >=0.5 วิ เพื่อเปิดรีเลย์ทันที (ปล่อย = ปิด)"));
 }
 
 void loop() {
   const bool buttonPressed   = (digitalRead(buttonPin)   == LOW);
   const bool overridePressed = (digitalRead(overridePin) == LOW);
+  unsigned long now = millis();
 
-  // ---------- โหมดบังคับเปิดทันที (D4) ----------
+  // ---------- โหมด override (D4) ----------
   if (overridePressed) {
-    if (!overridePrev) {
-      Serial.println(F("[OVERRIDE] กด D4 → เปิดรีเลย์ทันที"));
+    if (!overrideActive && overridePressStartMs == 0) {
+      // เพิ่งเริ่มกด → เริ่มจับเวลา
+      overridePressStartMs = now;
     }
-    digitalWrite(relayPin, RELAY_ACTIVE_LEVEL);
-    digitalWrite(ledPin, HIGH);
+    else if (!overrideActive && (now - overridePressStartMs >= OVERRIDE_HOLDMS)) {
+      // กดค้างครบ 0.5 วิ → เปิดรีเลย์
+      overrideActive = true;
+      Serial.println(F("[OVERRIDE] กด D4 ค้างครบ 0.5 วินาที → เปิดรีเลย์ทันที"));
+      digitalWrite(relayPin, RELAY_ACTIVE_LEVEL);
+      digitalWrite(ledPin, HIGH);
 
-    // รีเซ็ตโหมดจับเวลา
-    if (timing) {
+      // reset โหมดจับเวลา D2
       timing = false;
       relayOn = false;
       ledState = false;
     }
-    overridePrev = true;
-    return; // ไม่ทำโหมดจับเวลา
-  } else if (overridePrev) {
-    Serial.println(F("[OVERRIDE] ปล่อย D4 → ปิดรีเลย์"));
+    return; // ระหว่าง override → ไม่ทำโหมด D2
+  } else {
+    // ปล่อย D4
+    if (overrideActive) {
+      Serial.println(F("[OVERRIDE] ปล่อย D4 → ปิดรีเลย์"));
+    }
+    overrideActive = false;
+    overridePressStartMs = 0;
     digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
     digitalWrite(ledPin, LOW);
-    overridePrev = false;
   }
 
   // ---------- โหมดจับเวลา (D2) ----------
@@ -72,15 +82,14 @@ void loop() {
     if (!timing) {
       timing = true;
       relayOn = false;
-      pressStartMs = millis();
-      lastBlinkToggleMs = millis();
-      lastSecondTickMs = millis();
+      pressStartMs = now;
+      lastBlinkToggleMs = now;
+      lastSecondTickMs = now;
       elapsedSecondsShown = 0;
 
       Serial.println(F("[BTN] กด D2: เริ่มจับเวลา 20 วินาที"));
     }
 
-    unsigned long now = millis();
     unsigned long elapsed = now - pressStartMs;
 
     if (!relayOn) {
@@ -100,7 +109,7 @@ void loop() {
         lastSecondTickMs += 1000;
       }
 
-      // ครบเวลา → เปิดรีเลย์ + LED ค้าง
+      // ครบเวลา → เปิดรีเลย์
       if (elapsed >= TIMEOUT_MS) {
         relayOn = true;
         digitalWrite(relayPin, RELAY_ACTIVE_LEVEL);
@@ -108,9 +117,8 @@ void loop() {
         Serial.println(F("[RELAY] ครบ 20 วินาที → เปิดรีเลย์ (ON)"));
       }
     }
-
   } else {
-    // ปล่อยปุ่ม D2
+    // ปล่อย D2
     if (timing) {
       if (!relayOn) {
         Serial.print(F("[BTN] ปล่อย D2 ก่อนครบเวลา: ยกเลิกที่ "));
