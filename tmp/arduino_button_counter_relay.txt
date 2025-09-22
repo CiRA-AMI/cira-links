@@ -14,7 +14,7 @@ const unsigned long BLINK_MS        = 500;  // LED กระพริบทุ�
 const unsigned long OVERRIDE_HOLDMS = 500;  // D4 ต้องกดค้างอย่างน้อย 0.5 วิ
 
 // State
-bool timing       = false;  
+bool timing       = false;
 bool relayOn      = false;
 bool ledState     = false;
 
@@ -29,8 +29,8 @@ unsigned long elapsedSecondsShown = 0;
 
 void setup() {
   pinMode(ledPin, OUTPUT);
-  pinMode(buttonPin,   INPUT_PULLUP); 
-  pinMode(overridePin, INPUT_PULLUP); 
+  pinMode(buttonPin,   INPUT_PULLUP);
+  pinMode(overridePin, INPUT_PULLUP);
   pinMode(relayPin, OUTPUT);
 
   digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
@@ -70,11 +70,11 @@ void loop() {
     // ปล่อย D4
     if (overrideActive) {
       Serial.println(F("[OVERRIDE] ปล่อย D4 → ปิดรีเลย์"));
+      overrideActive = false;
+      digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
+      digitalWrite(ledPin, LOW);
     }
-    overrideActive = false;
     overridePressStartMs = 0;
-    digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
-    digitalWrite(ledPin, LOW);
   }
 
   // ---------- โหมดจับเวลา (D2) ----------
@@ -117,22 +117,33 @@ void loop() {
         Serial.println(F("[RELAY] ครบ 20 วินาที → เปิดรีเลย์ (ON)"));
       }
     }
-  } else {
-    // ปล่อย D2
+    // ถ้า relayOn = true แล้ว → รีเลย์จะคง ON ตลอดจนกว่าจะปล่อยปุ่ม
+  }
+  else {
+    // ปล่อยปุ่ม D2
     if (timing) {
       if (!relayOn) {
+        // ปล่อยก่อนครบเวลา → ยกเลิก
         Serial.print(F("[BTN] ปล่อย D2 ก่อนครบเวลา: ยกเลิกที่ "));
         Serial.print(elapsedSecondsShown);
         Serial.println(F(" วินาที"));
+
+        // reset
+        timing = false;
+        relayOn = false;
+        digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
+        digitalWrite(ledPin, LOW);
+        ledState = false;
       } else {
-        Serial.println(F("[BTN] ปล่อย D2 หลังครบเวลา: ปิดรีเลย์"));
+        // ปล่อยหลังครบเวลา → ปิดรีเลย์
+        Serial.println(F("[BTN] ปล่อย D2 หลังครบเวลา → ปิดรีเลย์"));
+
+        timing = false;
+        relayOn = false;
+        digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
+        digitalWrite(ledPin, LOW);
+        ledState = false;
       }
     }
-
-    timing = false;
-    relayOn = false;
-    digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
-    digitalWrite(ledPin, LOW);
-    ledState = false;
   }
 }
