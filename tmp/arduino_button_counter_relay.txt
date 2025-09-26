@@ -5,6 +5,7 @@ const int buttonPin   = 2;    // D2: Arm/Unlock button
 const int overridePin = 4;    // D4: Override/Relay-control button
 const int ledPin      = 13;   // LED แสดงสถานะ
 const int relayPin    = 8;    // รีเลย์
+const int greenPin    = 3;    // D3: ไฟเขียว แสดงสถานะ "ปลดล็อกแล้ว"
 
 // Relay active level (เปลี่ยนเป็น LOW ถ้ารีเลย์ Active LOW)
 const int RELAY_ACTIVE_LEVEL   = HIGH;
@@ -14,7 +15,7 @@ const int RELAY_INACTIVE_LEVEL = (RELAY_ACTIVE_LEVEL == HIGH ? LOW : HIGH);
 const unsigned long TIMEOUT_MS       = 20000; // กด D2 ค้าง 20 วิ เพื่อ "ปลดล็อก"
 const unsigned long BLINK_FAST_MS    = 500;   // กระพริบเร็วระหว่างนับ
 const unsigned long BLINK_SLOW_MS    = 2000;  // กระพริบช้าเมื่อ "ปลดล็อกแล้ว" (2 วิ ตามที่ขอ)
-const unsigned long OVERRIDE_HOLD_MS = 500;   // D4 ต้องกดค้างอย่างน้อย 0.5 วิ เพื่อสั่งรีเลย์
+const unsigned long OVERRIDE_HOLD_MS = 250;   // D4 ต้องกดค้างอย่างน้อย 0.25 วิ เพื่อสั่งรีเลย์
 
 // ===================== LED State Machine =====================
 enum LedMode { LED_OFF, LED_BLINK_FAST, LED_BLINK_SLOW, LED_ON };
@@ -86,15 +87,18 @@ void setup() {
   pinMode(buttonPin,   INPUT_PULLUP);
   pinMode(overridePin, INPUT_PULLUP);
   pinMode(relayPin, OUTPUT);
+  pinMode(greenPin, OUTPUT);
 
   digitalWrite(relayPin, RELAY_INACTIVE_LEVEL);
+  digitalWrite(greenPin, LOW); // เริ่มต้นยังไม่ปลดล็อก → ดับ
   setLedMode(LED_OFF);
 
   Serial.begin(115200);
   Serial.println(F("== System Ready =="));
   Serial.println(F("D2 (Arm): กดค้าง 20 วิ เพื่อ 'ปลดล็อก' ให้ D4 ใช้งานได้ (ปล่อย = RESET ระบบ)"));
   Serial.println(F("D4 (Override): ใช้ได้เมื่อปลดล็อกแล้ว กดค้าง >=0.5 วิ → รีเลย์ ON (ปล่อย = OFF)"));
-  Serial.println(F("LED: กระพริบเร็ว=กำลังนับ, กระพริบช้า(2วิ)=ปลดล็อกแล้ว, ติดค้าง=รีเลย์ ON, ดับ=สถานะอื่น"));
+  Serial.println(F("LED(13): กระพริบเร็ว=กำลังนับ, กระพริบช้า(2วิ)=ปลดล็อกแล้ว, ติดค้าง=รีเลย์ ON, ดับ=สถานะอื่น"));
+  Serial.println(F("LED เขียว(D3): ติดเมื่อ 'ปลดล็อกแล้ว', ดับเมื่อรีเซ็ต/ยังไม่ปลดล็อก"));
 }
 
 // ===================== Loop =====================
@@ -115,6 +119,7 @@ void loop() {
     lastSecondTickMs = now;
     elapsedSecondsShown = 0;
 
+    digitalWrite(greenPin, LOW);    // เริ่มนับใหม่ยังไม่ปลดล็อก → ดับ D3
     Serial.println(F("[D2] เริ่มนับ 20 วินาทีเพื่อปลดล็อก"));
     setLedMode(LED_BLINK_FAST);     // กระพริบเร็วระหว่างนับ
   }
@@ -133,13 +138,13 @@ void loop() {
     if (now - pressStartMs >= TIMEOUT_MS) {
       armed  = true;
       timing = false;
+      digitalWrite(greenPin, HIGH);   // ปลดล็อกแล้ว → ไฟเขียวติด
       Serial.println(F("[D2] ครบ 20 วินาที → ปลดล็อก D4 (armed = true)"));
       if (!overrideActive) setLedMode(LED_BLINK_SLOW); // ไฟสถานะปลดล็อก (2 วิ)
     }
   }
 
   // ---------- RESET เมื่อ "ปล่อย" ปุ่ม Arm ----------
-  // เงื่อนไขนี้ครอบคลุมทั้งกรณีปล่อยก่อนครบเวลา และปล่อยหลังปลดล็อกแล้ว
   if (!armBtnPressed && prevArmBtnPressed) {
     bool wasTiming = timing;
     bool wasArmed  = armed;
@@ -147,6 +152,7 @@ void loop() {
     // รีเซ็ตระบบทันทีเมื่อปล่อย D2
     timing = false;
     armed  = false;
+    digitalWrite(greenPin, LOW);      // รีเซ็ต → ไฟเขียวดับ
 
     // ถ้ารีเลย์กำลัง ON อยู่จาก override ให้ปิดด้วย
     if (overrideActive) {
@@ -173,7 +179,7 @@ void loop() {
   // ---------- D4: Override (ทำงานได้เฉพาะเมื่อ armed == true) ----------
   if (armed && overrideBtnPressed) {
     if (!overrideActive && overridePressStartMs == 0) {
-      // เพิ่งเริ่มกด → เริ่มจับ 0.5 วิ กันกดพลาด
+      // เพิ่งเริ่มกด → เริ่มจับ 0.25 วิ กันกดพลาด
       overridePressStartMs = now;
     } else if (!overrideActive && (now - overridePressStartMs >= OVERRIDE_HOLD_MS)) {
       // กดค้างครบ 0.5 วิ → เปิดรีเลย์
