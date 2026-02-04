@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.4@251217
+version : 1.9.4@260204
   - Add Yolo11 Detection & Instance Segmentation
   - Deep* node UI update and add Polygon ROI
   - DeepTrain & InstSegTrain auto save GT
@@ -20,3 +20,4 @@ version : 1.9.4@251217
   - Update JavaScript payload transfer
   - Add SharePoint plugin
   - Add CiRA Robot v2, UR=RTDE
+  - Update libcurl version to 8.18
