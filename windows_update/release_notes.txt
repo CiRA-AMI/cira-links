@@ -1,5 +1,5 @@
 CiRA CORE Windows
-version : 1.9.4@260407
+version : 1.9.4@260506
   - Add Yolo11 Detection & Instance Segmentation
   - Deep* node UI update and add Polygon ROI
   - DeepTrain & InstSegTrain auto save GT
@@ -22,3 +22,4 @@ version : 1.9.4@260407
   - Add CiRA Robot v2, UR=RTDE
   - Update libcurl version to 8.18
   - Update style, Fixed GstCamV2 bug
+  - Update edu robot
